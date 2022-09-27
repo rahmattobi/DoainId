@@ -109,8 +109,7 @@ class _SurahTileDetailState extends State<SurahTileDetail> {
                       activeColor: primaryColor,
                       onChanged: (value) {
                         setState(() {
-                          audioPlayer
-                              .seek(new Duration(seconds: value.toInt()));
+                          audioPlayer.seek(Duration(seconds: value.toInt()));
                         });
                       },
                     ),
@@ -118,7 +117,7 @@ class _SurahTileDetailState extends State<SurahTileDetail> {
                 ],
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -153,6 +152,7 @@ class _SurahTileDetailState extends State<SurahTileDetail> {
       }
     } else {
       var res = audioPlayer.play(UrlSource(widget.surah!));
+      // ignore: unrelated_type_equality_checks
       if (res == 1) {
         setState(() {
           isPlaying = true;

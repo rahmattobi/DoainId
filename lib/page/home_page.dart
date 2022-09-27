@@ -4,6 +4,8 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:quranku/model/surah_model.dart';
 import 'package:quranku/service/surah_service.dart';
 import 'package:quranku/theme.dart';
+import 'package:quranku/widget/skelton/skelton_card.dart';
+import 'package:quranku/widget/skelton/skelton_tile.dart';
 import '../widget/surah_card.dart';
 import '../widget/surah_detailtile.dart';
 import '../widget/surah_tile.dart';
@@ -25,7 +27,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _loading = true;
     SurahService.getSurah().then((surah) {
@@ -39,7 +40,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    double myheight = height * 0.80;
     TabController tabController = TabController(length: 2, vsync: this);
 
     Widget header() {
@@ -74,9 +74,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   top: defaultMargin,
                 ),
                 child: _loading!
-                    ? const Center(
-                        child:
-                            CircularProgressIndicator(),
+                    ? ListView.builder(
+                        itemCount: null,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) => const SkeltonCard(),
                       )
                     : ListView.builder(
                         itemCount: null == _surah ? 0 : _surah!.length,
@@ -133,9 +134,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               controller: tabController,
               children: [
                 _loading!
-                    ? Center(
-                        child:
-                            Container(child: const CircularProgressIndicator()),
+                    ? ListView.builder(
+                        itemCount: null,
+                        itemBuilder: (context, index) => const SkeltonTile(),
                       )
                     : ListView.builder(
                         itemCount: null == _surah ? 0 : _surah!.length,
@@ -214,9 +215,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         },
                       ),
                 _loading!
-                    ? Center(
-                        child:
-                            Container(child: const CircularProgressIndicator()),
+                    ? ListView.builder(
+                        itemCount: null,
+                        itemBuilder: (context, index) => const SkeltonTile(),
                       )
                     : ListView.builder(
                         itemCount: null == _surah ? 0 : _surah!.length,
@@ -307,6 +308,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         children: [
           header(),
           content(),
+          SkeltonTile(),
         ],
       ),
     );
