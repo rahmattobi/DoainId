@@ -230,7 +230,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   ),
                                 ),
                                 builder: (context) => Container(
-                                  height: height,
+                                  height: myheight,
                                   margin: EdgeInsets.only(
                                     top: defaultMargin,
                                     left: defaultMargin,
