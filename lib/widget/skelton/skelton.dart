@@ -24,21 +24,3 @@ class Skelton extends StatelessWidget {
     );
   }
 }
-
-class CircleSkelton extends StatelessWidget {
-  const CircleSkelton({Key? key, this.size = 24}) : super(key: key);
-
-  final double? size;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: size,
-      width: size,
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor.withOpacity(0.04),
-        shape: BoxShape.circle,
-      ),
-    );
-  }
-}

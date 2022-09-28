@@ -1,4 +1,3 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:quranku/model/surah_model.dart';
@@ -18,10 +17,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  final audioPlayer = AudioPlayer();
-  bool isPlaying = false;
-  Duration duration = Duration.zero;
-  Duration position = Duration.zero;
   List<Surah>? _surah;
   bool? _loading;
 
@@ -40,6 +35,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+    double myheight = height * 0.90;
     TabController tabController = TabController(length: 2, vsync: this);
 
     Widget header() {
@@ -151,53 +147,54 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     top: Radius.circular(25.0),
                                   ),
                                 ),
-                                builder: (context) => Container(
-                                  height: height,
-                                  margin: EdgeInsets.only(
-                                    top: defaultMargin,
-                                    left: defaultMargin,
-                                    right: defaultMargin,
-                                  ),
-                                  child: SingleChildScrollView(
-                                    scrollDirection: Axis.vertical,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Center(
-                                          child: Container(
-                                            width: 30,
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                width: 2,
+                                builder: (context) => SafeArea(
+                                  child: Container(
+                                    height: myheight,
+                                    margin: EdgeInsets.only(
+                                      left: defaultMargin,
+                                      right: defaultMargin,
+                                    ),
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.vertical,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Center(
+                                            child: Container(
+                                              width: 30,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  width: 2,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
                                               ),
-                                              borderRadius:
-                                                  BorderRadius.circular(50),
                                             ),
                                           ),
-                                        ),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                        SurahTileDetail(
-                                          nama: surah.nama,
-                                          arti: surah.arti,
-                                          surah: surah.audio,
-                                          type: surah.type.toString(),
-                                          jumlah: surah.ayat.toString(),
-                                        ),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                        Text(
-                                          surah.keterangan!,
-                                          style: subtitleTextStyle.copyWith(
-                                            fontSize: 15,
-                                            fontWeight: medium,
+                                          const SizedBox(
+                                            height: 20,
                                           ),
-                                          textAlign: TextAlign.justify,
-                                        ),
-                                      ],
+                                          SurahTileDetail(
+                                            nama: surah.nama,
+                                            arti: surah.arti,
+                                            surah: surah.audio,
+                                            type: surah.type.toString(),
+                                            jumlah: surah.ayat.toString(),
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          Text(
+                                            surah.keterangan!,
+                                            style: subtitleTextStyle.copyWith(
+                                              fontSize: 15,
+                                              fontWeight: medium,
+                                            ),
+                                            textAlign: TextAlign.justify,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -308,7 +305,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         children: [
           header(),
           content(),
-          SkeltonTile(),
         ],
       ),
     );

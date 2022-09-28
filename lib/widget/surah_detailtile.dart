@@ -10,8 +10,14 @@ class SurahTileDetail extends StatefulWidget {
   String? surah;
   String? type;
   String? jumlah;
-  SurahTileDetail(
-      {super.key, this.nama, this.arti, this.surah, this.type, this.jumlah});
+  SurahTileDetail({
+    super.key,
+    this.nama,
+    this.arti,
+    this.surah,
+    this.type,
+    this.jumlah,
+  });
 
   @override
   State<SurahTileDetail> createState() => _SurahTileDetailState();
@@ -22,9 +28,45 @@ class _SurahTileDetailState extends State<SurahTileDetail> {
 
   bool isPlaying = false;
 
-  Duration duration = const Duration();
-
   Duration position = const Duration();
+
+  int audioDuration = 0;
+  int timeProgress = 0;
+
+  void getAudio() async {
+    if (isPlaying) {
+      setState(() {
+        audioPlayer.pause();
+        isPlaying = false;
+      });
+    } else {
+      setState(() {
+        audioPlayer.play(UrlSource(widget.surah!));
+        isPlaying = true;
+      });
+    }
+  }
+
+  void newDuration(int sec) {
+    Duration newPosition = Duration(seconds: sec);
+    audioPlayer.seek(newPosition);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    audioPlayer.onDurationChanged.listen((Duration duration) {
+      setState(() {
+        audioDuration = duration.inMilliseconds;
+      });
+    });
+
+    audioPlayer.onPositionChanged.listen((Duration p) {
+      setState(() {
+        timeProgress = p.inMilliseconds;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +138,7 @@ class _SurahTileDetailState extends State<SurahTileDetail> {
                       getAudio();
                     },
                     child: Icon(
-                      isPlaying ? Icons.pause : Icons.play_arrow,
+                      isPlaying == false ? Icons.play_arrow : Icons.pause,
                       color: primaryColor,
                       size: 35,
                     ),
@@ -104,12 +146,12 @@ class _SurahTileDetailState extends State<SurahTileDetail> {
                   Expanded(
                     child: Slider.adaptive(
                       min: 0,
-                      max: duration.inSeconds.toDouble(),
-                      value: position.inSeconds.toDouble(),
+                      max: (audioDuration / 1000).floorToDouble(),
+                      value: (timeProgress / 1000).floorToDouble(),
                       activeColor: primaryColor,
                       onChanged: (value) {
                         setState(() {
-                          audioPlayer.seek(Duration(seconds: value.toInt()));
+                          newDuration(value.toInt());
                         });
                       },
                     ),
@@ -139,36 +181,5 @@ class _SurahTileDetailState extends State<SurahTileDetail> {
         ),
       ),
     );
-  }
-
-  void getAudio() async {
-    if (isPlaying) {
-      var result = audioPlayer.pause();
-      // ignore: unrelated_type_equality_checks
-      if (result == 1) {
-        setState(() {
-          isPlaying = false;
-        });
-      }
-    } else {
-      var res = audioPlayer.play(UrlSource(widget.surah!));
-      // ignore: unrelated_type_equality_checks
-      if (res == 1) {
-        setState(() {
-          isPlaying = true;
-        });
-      }
-    }
-    audioPlayer.onDurationChanged.listen((Duration dd) {
-      setState(() {
-        duration == dd;
-      });
-    });
-
-    audioPlayer.onPositionChanged.listen((Duration dd) {
-      setState(() {
-        position == dd;
-      });
-    });
   }
 }

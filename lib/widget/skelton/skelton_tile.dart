@@ -45,9 +45,14 @@ class SkeltonTile extends StatelessWidget {
                   ],
                 ),
               ),
-              const Skelton(
-                width: 120,
-                height: 30,
+              Container(
+                margin: const EdgeInsets.only(
+                  right: 5,
+                ),
+                child: const Skelton(
+                  width: 120,
+                  height: 30,
+                ),
               ),
             ],
           ),
