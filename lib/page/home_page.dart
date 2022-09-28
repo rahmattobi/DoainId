@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:quranku/model/surah_model.dart';
 import 'package:quranku/service/surah_service.dart';
@@ -185,13 +187,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                           const SizedBox(
                                             height: 20,
                                           ),
-                                          Text(
-                                            surah.keterangan!,
-                                            style: subtitleTextStyle.copyWith(
-                                              fontSize: 15,
-                                              fontWeight: medium,
-                                            ),
-                                            textAlign: TextAlign.justify,
+                                          Html(
+                                            data: surah.keterangan!,
+                                            style: {
+                                              "body": Style(
+                                                fontSize: const FontSize(17),
+                                                fontWeight: FontWeight.w500,
+                                                textAlign: TextAlign.justify,
+                                                color: subtitleColor
+                                                    .withOpacity(0.8),
+                                                fontFamily:
+                                                    GoogleFonts.poppins()
+                                                        .toString(),
+                                              ),
+                                            },
                                           ),
                                         ],
                                       ),
@@ -267,13 +276,19 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                         const SizedBox(
                                           height: 20,
                                         ),
-                                        Text(
-                                          surah.keterangan!,
-                                          style: subtitleTextStyle.copyWith(
-                                            fontSize: 15,
-                                            fontWeight: medium,
-                                          ),
-                                          textAlign: TextAlign.justify,
+                                        Html(
+                                          data: surah.keterangan!,
+                                          style: {
+                                            "body": Style(
+                                              fontSize: const FontSize(17),
+                                              fontWeight: FontWeight.w500,
+                                              textAlign: TextAlign.justify,
+                                              color: subtitleColor
+                                                  .withOpacity(0.8),
+                                              fontFamily: GoogleFonts.poppins()
+                                                  .toString(),
+                                            ),
+                                          },
                                         ),
                                       ],
                                     ),
