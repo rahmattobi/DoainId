@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:quranku/model/surah_model.dart';
@@ -8,6 +10,8 @@ import 'package:quranku/widget/skelton/skelton_tile.dart';
 import '../widget/surah_card.dart';
 import '../widget/surah_detailtile.dart';
 import '../widget/surah_tile.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,12 +21,59 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  late StreamSubscription _streamSubscription;
+  var isDeviceConnected = false;
+  bool isAlert = false;
+
+  getConnectivity() =>
+      _streamSubscription = Connectivity().onConnectivityChanged.listen(
+        (ConnectivityResult result) async {
+          isDeviceConnected = await InternetConnectionChecker().hasConnection;
+          if (!isDeviceConnected && isAlert == false) {
+            showDialogBox();
+            setState(() {
+              isAlert = true;
+            });
+          }
+        },
+      );
+  showDialogBox() => showCupertinoDialog(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: const Text('No Connection'),
+          content: const Text('Please Check your internet Connectivity'),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(context);
+                setState(() => isAlert = false);
+                isDeviceConnected =
+                    await InternetConnectionChecker().hasConnection;
+                if (!isDeviceConnected) {
+                  showDialogBox();
+                  setState(() => isAlert = true);
+                }
+              },
+              child: const Text('Ok'),
+            ),
+          ],
+        ),
+      );
+
+  @override
+  void dispose() {
+    _streamSubscription.cancel();
+    super.dispose();
+  }
+
   List<Surah>? _surah;
   bool? _loading;
 
   @override
   void initState() {
     super.initState();
+    getConnectivity();
+
     _loading = true;
     SurahService.getSurah().then((surah) {
       setState(() {

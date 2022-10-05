@@ -30,11 +30,13 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   audioplayers: ^1.0.1
+  connectivity_plus: ^2.3.8
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
   google_fonts: ^3.0.1
   http: ^0.13.5
+  internet_connection_checker: ^1.0.0+1
   modal_bottom_sheet: ^2.1.2
 
 dev_dependencies:
