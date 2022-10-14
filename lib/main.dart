@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quranku/page/home_page.dart';
 import 'package:quranku/page/splash_page.dart';

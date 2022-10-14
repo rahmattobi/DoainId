@@ -5,6 +5,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:quranku/model/surah_model.dart';
 import 'package:quranku/service/surah_service.dart';
 import 'package:quranku/theme.dart';
+import 'package:quranku/widget/ayat_tile.dart';
 import 'package:quranku/widget/skelton/skelton_card.dart';
 import 'package:quranku/widget/skelton/skelton_tile.dart';
 import '../widget/surah_card.dart';
@@ -191,75 +192,108 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           Surah surah = _surah![index];
                           return GestureDetector(
                             onTap: () {
-                              showMaterialModalBottomSheet(
+                              showModalBottomSheet(
+                                backgroundColor: Colors.transparent,
                                 context: context,
+                                // enableDrag: false,
+                                isScrollControlled: true,
                                 shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.vertical(
                                     top: Radius.circular(25.0),
                                   ),
                                 ),
-                                builder: (context) => SafeArea(
-                                  child: Container(
-                                    height: myheight,
-                                    margin: EdgeInsets.only(
-                                      left: defaultMargin,
-                                      right: defaultMargin,
-                                    ),
-                                    child: SingleChildScrollView(
-                                      scrollDirection: Axis.vertical,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Center(
-                                            child: Container(
-                                              width: 30,
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  width: 2,
+                                builder: (context) => makeDismissible(
+                                  child: DraggableScrollableSheet(
+                                    initialChildSize: 0.8,
+                                    minChildSize: 0.5,
+                                    maxChildSize: 1,
+                                    builder: (_, controller) => Container(
+                                      decoration: BoxDecoration(
+                                        color: whiteColor,
+                                        borderRadius:
+                                            const BorderRadius.vertical(
+                                          top: Radius.circular(25),
+                                        ),
+                                      ),
+                                      padding: const EdgeInsets.all(16),
+                                      child: SingleChildScrollView(
+                                        scrollDirection: Axis.vertical,
+                                        controller: controller,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Center(
+                                              child: Container(
+                                                width: 30,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    width: 2,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(50),
                                                 ),
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
                                               ),
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          SurahTileDetail(
-                                            nama: surah.nama,
-                                            arti: surah.arti,
-                                            surah: surah.audio,
-                                            type: surah.type.toString(),
-                                            jumlah: surah.ayat.toString(),
-                                          ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          Text(
-                                            surah.keterangan!,
-                                            style: subtitleTextStyle.copyWith(
-                                              fontWeight: medium,
-                                              fontSize: 15,
+                                            const SizedBox(
+                                              height: 20,
                                             ),
-                                            textAlign: TextAlign.justify,
-                                          )
-                                          // Html(
-                                          //   data: surah.keterangan!,
-                                          //   style: {
-                                          //     "body": Style(
-                                          //       fontSize: const FontSize(17),
-                                          //       fontWeight: FontWeight.w500,
-                                          //       textAlign: TextAlign.justify,
-                                          //       color: subtitleColor
-                                          //           .withOpacity(0.8),
-                                          //       fontFamily:
-                                          //           GoogleFonts.poppins()
-                                          //               .toString(),
-                                          //     ),
-                                          //   },
-                                          // ),
-                                        ],
+                                            SurahTileDetail(
+                                              nama: surah.nama,
+                                              arti: surah.arti,
+                                              surah: surah.audio,
+                                              type: surah.type.toString(),
+                                              jumlah: surah.ayat.toString(),
+                                            ),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            AyatTile(
+                                              jumlah: 1,
+                                              ayat: 'resfdas',
+                                              nama:
+                                                  'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest',
+                                              nomor: '1',
+                                            ),
+                                            AyatTile(
+                                              jumlah: 1,
+                                              ayat: 'resfdas',
+                                              nama:
+                                                  'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest',
+                                              nomor: '1',
+                                            ),
+                                            AyatTile(
+                                              jumlah: 1,
+                                              ayat: 'resfdas',
+                                              nama:
+                                                  'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest',
+                                              nomor: '1',
+                                            ),
+                                            Text(
+                                              surah.keterangan!,
+                                              style: subtitleTextStyle.copyWith(
+                                                fontWeight: medium,
+                                                fontSize: 15,
+                                              ),
+                                              textAlign: TextAlign.justify,
+                                            )
+                                            // Html(
+                                            //   data: surah.keterangan!,
+                                            //   style: {
+                                            //     "body": Style(
+                                            //       fontSize: const FontSize(17),
+                                            //       fontWeight: FontWeight.w500,
+                                            //       textAlign: TextAlign.justify,
+                                            //       color: subtitleColor
+                                            //           .withOpacity(0.8),
+                                            //       fontFamily:
+                                            //           GoogleFonts.poppins()
+                                            //               .toString(),
+                                            //     ),
+                                            //   },
+                                            // ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -288,74 +322,88 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           Surah surah = _surah![index];
                           return GestureDetector(
                             onTap: () {
-                              showMaterialModalBottomSheet(
+                              showModalBottomSheet(
+                                backgroundColor: Colors.transparent,
                                 context: context,
+                                // enableDrag: false,
+                                isScrollControlled: true,
                                 shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.vertical(
                                     top: Radius.circular(25.0),
                                   ),
                                 ),
-                                builder: (context) => Container(
-                                  height: myheight,
-                                  margin: EdgeInsets.only(
-                                    top: defaultMargin,
-                                    left: defaultMargin,
-                                    right: defaultMargin,
-                                  ),
-                                  child: SingleChildScrollView(
-                                    scrollDirection: Axis.vertical,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Center(
-                                          child: Container(
-                                            width: 30,
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                width: 2,
+                                builder: (context) => makeDismissible(
+                                  child: DraggableScrollableSheet(
+                                    initialChildSize: 0.8,
+                                    minChildSize: 0.5,
+                                    maxChildSize: 1,
+                                    builder: (_, controller) => Container(
+                                      decoration: BoxDecoration(
+                                        color: whiteColor,
+                                        borderRadius:
+                                            const BorderRadius.vertical(
+                                          top: Radius.circular(25),
+                                        ),
+                                      ),
+                                      padding: const EdgeInsets.all(16),
+                                      child: SingleChildScrollView(
+                                        scrollDirection: Axis.vertical,
+                                        controller: controller,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Center(
+                                              child: Container(
+                                                width: 30,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    width: 2,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(50),
+                                                ),
                                               ),
-                                              borderRadius:
-                                                  BorderRadius.circular(50),
                                             ),
-                                          ),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            SurahTileDetail(
+                                              nama: surah.nama,
+                                              arti: surah.arti,
+                                              surah: surah.audio,
+                                              type: surah.type.toString(),
+                                              jumlah: surah.ayat.toString(),
+                                            ),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            Text(
+                                              surah.keterangan!,
+                                              style: subtitleTextStyle.copyWith(
+                                                fontWeight: medium,
+                                                fontSize: 15,
+                                              ),
+                                              textAlign: TextAlign.justify,
+                                            )
+                                            // Html(
+                                            //   data: surah.keterangan!,
+                                            //   style: {
+                                            //     "body": Style(
+                                            //       fontSize: const FontSize(17),
+                                            //       fontWeight: FontWeight.w500,
+                                            //       textAlign: TextAlign.justify,
+                                            //       color: subtitleColor
+                                            //           .withOpacity(0.8),
+                                            //       fontFamily:
+                                            //           GoogleFonts.poppins()
+                                            //               .toString(),
+                                            //     ),
+                                            //   },
+                                            // ),
+                                          ],
                                         ),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                        SurahTileDetail(
-                                          nama: surah.nama,
-                                          arti: surah.arti,
-                                          surah: surah.audio,
-                                          type: surah.type.toString(),
-                                          jumlah: surah.ayat.toString(),
-                                        ),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                        Text(
-                                          surah.keterangan!,
-                                          style: subtitleTextStyle.copyWith(
-                                            fontWeight: medium,
-                                            fontSize: 15,
-                                          ),
-                                          textAlign: TextAlign.justify,
-                                        )
-                                        // Html(
-                                        //   data: surah.keterangan!,
-                                        //   style: {
-                                        //     "body": Style(
-                                        //       fontSize: const FontSize(17),
-                                        //       fontWeight: FontWeight.w500,
-                                        //       textAlign: TextAlign.justify,
-                                        //       color: subtitleColor
-                                        //           .withOpacity(0.8),
-                                        //       fontFamily: GoogleFonts.poppins()
-                                        //           .toString(),
-                                        //     ),
-                                        //   },
-                                        // ),
-                                      ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -389,4 +437,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       ),
     );
   }
+
+  makeDismissible({required Widget child}) => GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => Navigator.of(context).pop(),
+        child: GestureDetector(
+          onTap: () {},
+          child: child,
+        ),
+      );
 }

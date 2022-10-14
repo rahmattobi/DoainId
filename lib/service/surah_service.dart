@@ -13,7 +13,7 @@ class SurahService {
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         final List<Surah> surahs = surahFromJson(response.body);
-        print(response.body);
+        // print(response.body);
         return surahs;
       } else {
         print('data tidak di temukan');
